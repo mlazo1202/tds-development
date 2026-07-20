@@ -24,7 +24,7 @@ export default function TranscriptPanel({ sessionState, transcript }: Transcript
 
   const handleCopy = () => {
     if (transcript.length === 0) return;
-    const text = transcript.map((e) => `[${e.timestamp}] ${e.word}`).join('\n');
+    const text = transcript.map((e) => `[${e.timestamp}] ${e.letter}`).join('\n');
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
       toast.success('Transcripción copiada al portapapeles');
@@ -34,7 +34,7 @@ export default function TranscriptPanel({ sessionState, transcript }: Transcript
 
   const handleDownload = () => {
     if (transcript.length === 0) return;
-    const text = transcript.map((e) => `[${e.timestamp}] ${e.word}`).join('\n');
+    const text = transcript.map((e) => `[${e.timestamp}] ${e.letter}`).join('\n');
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

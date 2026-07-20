@@ -7,20 +7,12 @@ import TranscriptPanel from './TranscriptPanel';
 
 export interface TranscriptEntry {
   id: string;
-  word: string;
+  letter: string;
   timestamp: string;
   confidence: number;
 }
 
 type SessionState = 'idle' | 'active' | 'ended';
-
-
-const MOCK_SIGNS: string[] = [
-  'HOLA', 'BUENOS DÍAS', 'ME LLAMO', 'LUCÍA', 'NECESITO', 'AYUDA',
-  'GRACIAS', 'POR FAVOR', 'SÍ', 'NO', 'ENTIENDO', 'REPITE',
-  'DESPACIO', 'AGUA', 'COMIDA', 'CASA', 'FAMILIA', 'AMIGO',
-  'TRABAJO', 'ESCUELA', 'DOCTOR', 'HOSPITAL', 'URGENTE', 'BIEN',
-];
 
 function formatTimestamp(date: Date): string {
   const h = date.getHours().toString().padStart(2, '0');
@@ -32,47 +24,57 @@ function formatTimestamp(date: Date): string {
 export default function TranslationRoomLayout() {
   const [sessionState, setSessionState] = useState<SessionState>('idle');
   const [transcript, setTranscript] = useState<TranscriptEntry[]>([]);
-  const [signIndex, setSignIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const entryCounter = useRef(0);
+  const lastLetter = useRef("");
 
   
-  const addTranscriptEntry = useCallback((word: string) => {
-    entryCounter.current += 1;
-    const id = `transcript-${entryCounter.current}-${Date.now()}`;
-    const now = new Date();
-    const entry: TranscriptEntry = {
-      id,
-      word,
-      timestamp: formatTimestamp(now),
-      confidence: 88 + Math.floor(signIndex % 3) * 3,
-    };
-    setTranscript((prev) => [...prev, entry]);
-  }, [signIndex]);
+  const addTranscriptEntry = useCallback(
+  (letter: string, confidence: number) => {
+      entryCounter.current++;
+
+      const entry: TranscriptEntry = {
+          id: `transcript-${entryCounter.current}`,
+          letter,
+          timestamp: formatTimestamp(new Date()),
+          confidence
+      };
+      
+      setTranscript(prev => [...prev, entry]);
+  }, []);
 
   useEffect(() => {
-    if (sessionState === 'active') {
-      
-      intervalRef.current = setInterval(() => {
-        const word = MOCK_SIGNS[signIndex % MOCK_SIGNS.length];
-        addTranscriptEntry(word);
-        setSignIndex((i) => i + 1);
-      }, 1800);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    }
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [sessionState, signIndex, addTranscriptEntry]);
+      if (sessionState !== "active") return;
+
+      intervalRef.current = setInterval(async () => {
+          try {
+              const response = await fetch("http://localhost:5000/prediction");
+              const data = await response.json();
+              if (
+                  data.letter &&
+                  data.letter !== lastLetter.current
+              ) {
+                  lastLetter.current = data.letter;
+                  addTranscriptEntry(
+                      data.letter,
+                      Math.round(data.confidence * 100)
+                  );
+              }
+          } catch (err) {
+              console.error(err);
+          }
+      }, 300);
+
+      return () => {
+          if(intervalRef.current){
+              clearInterval(intervalRef.current);
+          }
+      };
+  }, [sessionState, addTranscriptEntry]);
 
   const handleStartSession = () => {
     setSessionState('active');
     setTranscript([]);
-    setSignIndex(0);
     entryCounter.current = 0;
   };
 
@@ -83,7 +85,6 @@ export default function TranslationRoomLayout() {
   const handleNewSession = () => {
     setSessionState('idle');
     setTranscript([]);
-    setSignIndex(0);
     entryCounter.current = 0;
   };
 

@@ -2,10 +2,10 @@ import os
 import sys
 import threading
 import cv2
-from flask import Response
 from qt_camera import VideoRecorder
 from PyQt5.QtWidgets import QApplication
-from flask import Flask, request
+from flask_cors import CORS
+from flask import Flask, request, Response, jsonify
 from werkzeug.utils import secure_filename
 from process_video import process_video
 from evaluate_model import evaluate_model
@@ -13,6 +13,7 @@ from evaluate_model import evaluate_model
 app = Flask(__name__)
 qt = QApplication(sys.argv)
 camera = VideoRecorder()
+CORS(app)
 
 
 def generate_frames():
@@ -37,6 +38,14 @@ def generate_frames():
 @app.route("/video_feed")
 def video_feed():
     return Response(generate_frames(), mimetype="multipart/x-mixed-replace; boundary=frame")
+
+
+@app.route("/prediction")
+def prediction():
+    return jsonify({
+        "letter": camera.current_letter,
+        "confidence": camera.current_confidence
+    })
 
 
 def flask_thread():

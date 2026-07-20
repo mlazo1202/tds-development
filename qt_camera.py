@@ -35,7 +35,9 @@ class VideoRecorder(QMainWindow):
         
         self.capture = cv2.VideoCapture(0)
         self.kp_seq = []
-        self.ultima_letra = "" 
+        self.ultima_letter = ""
+        self.current_letter = "" 
+        self.current_confidence = 0.0
         
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
@@ -55,15 +57,17 @@ class VideoRecorder(QMainWindow):
             
             # Umbral de confianza ajustado a 0.7
             if np.max(res) > 0.4:
-                letra = self.word_ids[np.argmax(res)]
-                cv2.putText(frame, f"Letra: {letra}", (50, 50), 
+                letter = self.word_ids[np.argmax(res)]
+                cv2.putText(frame, f"letter: {letter}", (50, 50), 
                             cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 255, 0), 3)
                 
-                # Lógica para hablar solo cuando cambia la letra
-                if letra != self.ultima_letra:
-                    speaker = Speaker(letra)
+
+                if letter != self.ultima_letter:
+                    self.current_letter = letter
+                    self.current_confidence = float(np.max(res))
+                    speaker = Speaker(letter)
                     speaker.start()
-                    self.ultima_letra = letra
+                    self.ultima_letter = letter
         
         draw_keypoints(frame, results)
         self.current_frame = frame.copy()
@@ -77,6 +81,4 @@ class VideoRecorder(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = VideoRecorder()
-    window.show()
     sys.exit(app.exec_())

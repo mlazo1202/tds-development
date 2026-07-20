@@ -29,7 +29,7 @@ export default function TranscriptLine({ entry, isLatest }: TranscriptLineProps)
         <span className={`text-sm font-700 tracking-wide truncate ${
           isLatest ? 'text-white' : 'text-slate-200'
         }`}>
-          {entry.word}
+          {entry.letter}
         </span>
       </div>
 

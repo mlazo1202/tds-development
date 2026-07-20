@@ -1,0 +1,8 @@
+.vscode
+.test
+__pycache__
+tmp
+videos
+.old
+venv
+bembon

@@ -3,6 +3,8 @@ import cv2
 import numpy as np
 import pyttsx3
 import threading
+from flask import Flask
+from flask import Response
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import QTimer, Qt
@@ -12,7 +14,6 @@ from mediapipe.python.solutions.holistic import Holistic
 from helpers import mediapipe_detection, draw_keypoints, extract_keypoints, get_word_ids
 from constants import *
 
-# Clase para hablar sin congelar el video
 class Speaker(threading.Thread):
     def __init__(self, text):
         super().__init__()
@@ -26,6 +27,7 @@ class VideoRecorder(QMainWindow):
     def __init__(self):
         super().__init__()
         loadUi('mainwindow.ui', self)
+        self.current_frame = None
         
         self.word_ids = get_word_ids(WORDS_JSON_PATH)
         self.model = load_model(MODEL_PATH)
@@ -64,12 +66,14 @@ class VideoRecorder(QMainWindow):
                     self.ultima_letra = letra
         
         draw_keypoints(frame, results)
+        self.current_frame = frame.copy()
         
         rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         h, w, ch = rgb_image.shape
         bytes_per_line = ch * w
         qImg = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
         self.lbl_video.setPixmap(QPixmap.fromImage(qImg.scaled(self.lbl_video.size(), Qt.KeepAspectRatio)))
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

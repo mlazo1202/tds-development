@@ -50,11 +50,11 @@ def get_keypoints(model, sample_path, image_list=None):
 # --- FUNCIONES DE DIBUJO ---
 def draw_keypoints(image, results):
     draw_landmarks(image, results.left_hand_landmarks, HAND_CONNECTIONS,
-                   DrawingSpec(color=(121, 22, 76), thickness=2, circle_radius=4),
-                   DrawingSpec(color=(121, 44, 250), thickness=2, circle_radius=2))
+                DrawingSpec(color=(121, 22, 76), thickness=2, circle_radius=4),
+                DrawingSpec(color=(121, 44, 250), thickness=2, circle_radius=2))
     draw_landmarks(image, results.right_hand_landmarks, HAND_CONNECTIONS,
-                   DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=4),
-                   DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2))
+                DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=4),
+                DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2))
 
 # --- FUNCIONES DE ENTRENAMIENTO ---
 def get_sequences_and_labels(words_id):

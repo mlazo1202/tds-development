@@ -87,8 +87,8 @@ export default function VideoArea({ sessionState, onStart, onEnd, onNewSession }
             {/* Simulated camera feed */}
             <div className="absolute inset-0">
               <AppImage
-              src="https://images.unsplash.com/photo-1634048739231-24e990a3cd0c"
-              alt="Vista de cámara activa mostrando persona realizando lengua de señas"
+              src="http://localhost:5000/video_feed"
+              alt="Vista principal"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 65vw" />

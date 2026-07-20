@@ -16,7 +16,7 @@ from wtforms.validators import DataRequired, Length
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv('dbconfig.env')
 
 app = Flask(__name__)
 
@@ -270,4 +270,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5050, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)

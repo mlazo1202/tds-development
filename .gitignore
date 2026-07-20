@@ -1,3 +1,4 @@
+dbconfig.env
 .vscode
 .test
 __pycache__
@@ -6,3 +7,15 @@ videos
 .old
 venv
 bembon
+v-sia/node_modules
+v-sia/package-lock.json
+v-sia/.next
+v-sia/out
+v-sia/build
+v-sia/npm-debug.log*
+v-sia/yarn-debug.log*
+v-sia/yarn-error.log*
+v-sia/pnpm-debug.log*
+v-sia/*.tsbuildinfo
+v-sia/.vscode
+v-sia/.idea/

@@ -5,13 +5,18 @@ numpy==1.26.4
 opencv_contrib_python==4.9.0.80
 protobuf==3.19.3
 pandas==2.2.2
+scikit-learn==1.7.2
 pygame==2.5.2
 tensorflow==2.10.1
 Flask==3.0.2
+flask-mysqldb
+flask-bcrypt
+flask-cors
+flask-login
+flask-wtf
+python-dotenv
 tables==3.9.2
-gTTS==2.5.1
-pygame==2.5.2
 PyQt5==5.15.9
-pyttsx3 
+pyttsx3
 
-#tensorflow cambiar -> 2.15.0 o 2.16.1
+#cambiar protobuf de 3.19.3 a 3.20.3 después de la instalación

@@ -89,10 +89,10 @@ export default function TranslationRoomLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col">
+    <div className="h-screen bg-slate-950 flex flex-col overflow-hidden">
       <TranslationRoomHeader sessionState={sessionState} />
 
-      <div className="flex-1 flex flex-col lg:flex-row gap-4 p-4 lg:p-6 max-w-screen-2xl mx-auto w-full">
+      <div className="flex-1 min-h-0 flex flex-col lg:flex-row gap-4 p-4 lg:p-6 max-w-screen-2xl mx-auto w-full">
         {/* Video area — 65% */}
         <div className="w-full lg:flex-[65]">
           <VideoArea
@@ -104,7 +104,7 @@ export default function TranslationRoomLayout() {
         </div>
 
         {/* Transcript panel — 35% */}
-        <div className="w-full lg:flex-[35] lg:min-w-[320px] lg:max-w-[480px]">
+        <div className="w-full lg:flex-[35] lg:min-w-[320px] lg:max-w-[480px] min-h-0">
           <TranscriptPanel
             sessionState={sessionState}
             transcript={transcript}

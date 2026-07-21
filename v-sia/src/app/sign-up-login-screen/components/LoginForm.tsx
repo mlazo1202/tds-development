@@ -19,7 +19,7 @@ interface LoginFormProps {
 
 
 const DEMO_CREDENTIALS = {
-  email: 'pablito_cpp@gmail.com',
+  email: 'pablito_autonoma@gmail.com',
   password: 'pablito2026!',
 };
 
@@ -43,7 +43,7 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
       data.email === DEMO_CREDENTIALS.email &&
       data.password === DEMO_CREDENTIALS.password
     ) {
-      toast.success('Sesión iniciada correctamente. ¡Bienvenida, Pepito!');
+      toast.success('Sesión iniciada correctamente. ¡Bienvenida, Pablito!');
       setTimeout(() => {
         window.location.href = '/translation-room';
       }, 800);

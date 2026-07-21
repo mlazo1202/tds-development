@@ -9,14 +9,8 @@ scikit-learn==1.7.2
 pygame==2.5.2
 tensorflow==2.10.1
 Flask==3.0.2
-flask-mysqldb
-flask-bcrypt
 flask-cors
-flask-login
-flask-wtf
 python-dotenv
 tables==3.9.2
 PyQt5==5.15.9
 pyttsx3
-
-#cambiar protobuf de 3.19.3 a 3.20.3 después de la instalación

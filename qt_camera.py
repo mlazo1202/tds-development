@@ -51,7 +51,7 @@ class VideoRecorder(QMainWindow):
         self.kp_seq.append(extract_keypoints(results))
         if len(self.kp_seq) > 15:
             self.kp_seq.pop(0) 
-            
+                                                        
         if len(self.kp_seq) == 15:
             res = self.model.predict(np.expand_dims(self.kp_seq, axis=0), verbose=0)[0]
             
